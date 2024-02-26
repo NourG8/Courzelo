@@ -1,10 +1,12 @@
 package com.example.corzello.Entity;
 
+
+import com.example.corzello.Entity.Publication;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -17,7 +19,14 @@ public class Commentaire {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idCommentaire;
 
-    @OneToMany(mappedBy = "commentaire",cascade = CascadeType.ALL)
-    private Set<Publication> publications;
+    @ManyToOne
+    private Publication publication;
 
+
+    @Column(name = "content", columnDefinition = "TEXT")
+    private String content;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 }
