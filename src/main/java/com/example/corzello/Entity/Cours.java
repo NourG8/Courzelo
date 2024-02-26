@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Entity
 @Getter
 @Setter
@@ -18,7 +16,7 @@ public class Cours {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idCours;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Module module;
+    private ModuleEntity module;
     @ManyToOne(cascade = CascadeType.ALL)
     private Compte_rendu compteRendu;
     @ManyToOne(cascade = CascadeType.ALL)

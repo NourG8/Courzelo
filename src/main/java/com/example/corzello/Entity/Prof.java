@@ -19,7 +19,7 @@ public class Prof {
     @OneToMany(mappedBy = "prof", cascade = CascadeType.ALL)
     private Set<Calendrier> Calendriers;
     @OneToMany(mappedBy = "prof", cascade = CascadeType.ALL)
-    private Set<Module> Modules;
+    private Set<ModuleEntity> Modules;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Classe> classes;
 
