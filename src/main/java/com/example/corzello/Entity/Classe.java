@@ -14,9 +14,10 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Classe {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClasse;
-
+    private String nomClass;
+    private String filiere ;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Emploi_Du_Temps> emploi_Du_Temps;
     @ManyToMany(mappedBy = "classes",cascade = CascadeType.ALL)
