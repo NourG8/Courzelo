@@ -25,7 +25,7 @@ public class   Etudiant {
     private Set<reponses_etudiant> reponsesEtudiants;
 
     @OneToMany(mappedBy = "etudiant", cascade = CascadeType.ALL)
-    private Set<Recruitement_çprocess_details> recruitementprocessDetails;
+    private Set<Recruitement_process_details> recruitementprocessDetails;
 
 }
 
