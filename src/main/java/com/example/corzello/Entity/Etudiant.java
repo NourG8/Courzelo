@@ -12,10 +12,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Etudiant {
+public class   Etudiant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_user;
+    private String nom;
     @ManyToOne(cascade = CascadeType.ALL)
     private Classe classe;
     @ManyToMany(cascade = CascadeType.ALL)
