@@ -1,9 +1,11 @@
 package com.example.corzello.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -11,19 +13,22 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class Prog_educatif {
+public class Prog_educatif implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProgEducatif;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Module> Modules;
+    private String NomProg;
+    private String DescriptionProg;
+
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Universite universite;
     @OneToMany(mappedBy = "progEducatif",cascade = CascadeType.ALL)
-    private Set<Module>modules;
+
+    private Set<ModuleEntity>modules;
     @OneToMany(mappedBy = "progEducatif",cascade = CascadeType.ALL)
+
     private Set<Cours>cours;
 
 }

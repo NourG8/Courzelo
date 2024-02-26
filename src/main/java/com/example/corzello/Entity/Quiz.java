@@ -22,7 +22,7 @@ public class Quiz {
     @OneToMany( mappedBy ="quiz" ,cascade = CascadeType.ALL)
     private Set<Question> questions;
     @OneToMany( mappedBy ="quiz" ,cascade = CascadeType.ALL)
-    private Set<Module> modules;
+    private Set<ModuleEntity> modules;
 
 
 
