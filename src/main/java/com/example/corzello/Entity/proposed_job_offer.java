@@ -20,6 +20,6 @@ public class proposed_job_offer {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Recruteur> recruteurs;
     @OneToMany(mappedBy = "proposedJobOffer",cascade = CascadeType.ALL)
-    private Set<Recruitement_çprocess_details> recruitementprocessDetails;
+    private Set<Recruitement_process_details> recruitementprocessDetails;
 
 }

@@ -4,15 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Recruitement_çprocess_details {
+public class Recruitement_process_details {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idRecrutement_PDetails;
