@@ -24,9 +24,11 @@ public class Prog_educatif implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Universite universite;
+
     @OneToMany(mappedBy = "progEducatif",cascade = CascadeType.ALL)
 
     private Set<ModuleEntity>modules;
+
     @OneToMany(mappedBy = "progEducatif",cascade = CascadeType.ALL)
 
     private Set<Cours>cours;

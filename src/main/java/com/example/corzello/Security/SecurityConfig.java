@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-                        req -> req.requestMatchers("/userapi/register","/userapi/authenticate")
+                        req -> req.requestMatchers("/userapi/register","/Module/**","/Program/**","/userapi/authenticate")
                                 .permitAll()
                                 .anyRequest()
                                 .fullyAuthenticated()
