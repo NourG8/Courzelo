@@ -1,6 +1,8 @@
 package com.example.corzello.Service;
 
+import com.example.corzello.Entity.Etudiant;
 import com.example.corzello.Entity.Recruitement_process_details;
+import com.example.corzello.Repository.EtudiantRepository;
 import com.example.corzello.Repository.RecruitementRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,13 @@ import java.util.Optional;
 public class RecruitementServiceImpl implements RecruitementService {
 
     private final RecruitementRepo recruitementRepo;
+    private final EtudiantRepository etudiantRepo;
 
     @Autowired
-    public RecruitementServiceImpl(RecruitementRepo recruitementRepo) {
+    public RecruitementServiceImpl(RecruitementRepo recruitementRepo,EtudiantRepository etudiantRepository) {
+
         this.recruitementRepo = recruitementRepo;
+        this.etudiantRepo = etudiantRepository;
     }
 
     @Override
@@ -29,8 +34,10 @@ public class RecruitementServiceImpl implements RecruitementService {
     }
 
     @Override
-    public Recruitement_process_details createRecruitementProcess(Recruitement_process_details recruitementProcess) {
+    public Recruitement_process_details createRecruitementProcess(long idetudiant,Recruitement_process_details recruitementProcess) {
         //recruitementProcess.setEtudiant(etudiant); // Associate the student with the recruitment process
+        Etudiant e = etudiantRepo.findById(idetudiant).get();
+        recruitementProcess.setEtudiant(e);
         return recruitementRepo.save(recruitementProcess); // Save the recruitment process with the associated student
     }
 

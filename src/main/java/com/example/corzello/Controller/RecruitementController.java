@@ -26,9 +26,13 @@ public class RecruitementController {
         return recruitementService.getAllRecruitementProcesses();
     }
 
-    @PostMapping("CreateRecruitementProcess")
-    public Recruitement_process_details createRecruitementProcess(@RequestBody Recruitement_process_details processDetails) {
-        return recruitementService.createRecruitementProcess(processDetails);
+    @PostMapping("CreateRecruitementProcess/{etudiantId}")
+    public Recruitement_process_details createRecruitementProcess(@PathVariable("etudiantId") Long etudiantId, @RequestBody Recruitement_process_details processDetails) {
+        // Now you have the etudiantId available here
+        System.out.println("Etudiant ID: " + etudiantId);
+        System.out.println(processDetails.toString());
+        // Assuming you have a method to create the recruitment process for the given etudiantId
+        return recruitementService.createRecruitementProcess(etudiantId, processDetails);
     }
 
     @GetMapping("GetById/{idRecrutement_PDetails}")

@@ -11,7 +11,8 @@ public interface RecruitementService {
     Optional<Recruitement_process_details> getRecruitementProcessById(Long id);
 
 
-    Recruitement_process_details createRecruitementProcess(Recruitement_process_details recruitementProcess);
+    Recruitement_process_details createRecruitementProcess(long idetudiant,Recruitement_process_details recruitementProcess);
+
 
 
     Recruitement_process_details updateRecruitementProcess(Recruitement_process_details updatedRecruitementProcess);
