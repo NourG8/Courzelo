@@ -22,6 +22,9 @@ public class Publication {
     @Column(name = "id_publication")
     private Long idPublication;
 
+    private int upvoteCount = 0; // Attribute to store upvote count
+    private int downvoteCount = 0; // Attribute to store downvote count
+    
     private String title;
     private String description;
     private String body;
@@ -29,11 +32,12 @@ public class Publication {
     private String tags;
 
 
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Vote vote;
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
-    private Set<Commentaire>commentaires;
+    private Set<Vote> votes;
+
+
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
+    private Set<Commentaire> commentaires;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Forum forum;

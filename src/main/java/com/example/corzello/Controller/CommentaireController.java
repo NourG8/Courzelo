@@ -3,6 +3,7 @@ package com.example.corzello.Controller;
 import com.example.corzello.Entity.Commentaire;
 
 import com.example.corzello.Service.CommentaireService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
+
 public class CommentaireController {
 
     private final CommentaireService commentaireService;
@@ -21,17 +25,18 @@ public class CommentaireController {
         this.commentaireService = commentaireService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Commentaire> createComment(@RequestBody Commentaire commentaire) {
-        Commentaire createdComment = commentaireService.createComment(commentaire);
-        return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
+    @PostMapping("/add/{idPublication}")
+    public ResponseEntity<Commentaire> addComment(@PathVariable Long idPublication, @RequestBody Commentaire commentaire) {
+        Commentaire savedComment = commentaireService.createComment(idPublication, commentaire);
+        return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
     }
 
-    @GetMapping("/publication/{idPublication}")
+    @GetMapping("/comments/{idPublication}")
     public ResponseEntity<List<Commentaire>> getCommentsByPublicationId(@PathVariable Long idPublication) {
         List<Commentaire> comments = commentaireService.getCommentsByPublicationId(idPublication);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+
 
     @PutMapping("/update/{idCommentaire}")
     public ResponseEntity<Commentaire> updateComment(@PathVariable Long idCommentaire, @RequestBody Commentaire commentaire) {

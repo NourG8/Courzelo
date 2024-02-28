@@ -2,6 +2,7 @@ package com.example.corzello.Entity;
 
 
 import com.example.corzello.Entity.Publication;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,10 @@ public class Commentaire {
     private Long idCommentaire;
 
     @ManyToOne
+    @JoinColumn(name = "publication_id_publication")
+    @JsonIgnore
     private Publication publication;
+
 
 
     @Column(name = "content", columnDefinition = "TEXT")

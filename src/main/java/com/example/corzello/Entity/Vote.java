@@ -1,10 +1,9 @@
 package com.example.corzello.Entity;
 
+import com.example.corzello.Entity.Publication;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Entity
 @Getter
@@ -17,7 +16,11 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idVote;
 
-    @OneToMany(mappedBy = "vote",cascade = CascadeType.ALL)
-    private Set<Publication> publications;
+    private boolean upvoted;
 
+    private boolean downvoted;
+
+    @ManyToOne
+    @JoinColumn(name = "publication_id")
+    private Publication publication;
 }

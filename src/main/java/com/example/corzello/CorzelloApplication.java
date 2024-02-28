@@ -19,7 +19,7 @@ public class CorzelloApplication {
         SpringApplication.run(CorzelloApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     CommandLineRunner run (UserService userService){
         return  args -> {
           userService.saveRole(new Role(1,"Admin"));
@@ -29,5 +29,5 @@ public class CorzelloApplication {
           userService.saveRole(new Role(5,"Etudiant"));
           userService.saveRole(new Role(6,"default"));
         };
-    }
+    }*/
 }

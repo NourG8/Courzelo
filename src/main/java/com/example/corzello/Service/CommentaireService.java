@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface CommentaireService {
 
-    Commentaire createComment(Commentaire commentaire);
+
+
+    Commentaire createComment(Long idPublication, Commentaire commentaire);
 
     List<Commentaire> getCommentsByPublicationId(Long idPublication);
 

@@ -1,12 +1,12 @@
 package com.example.corzello.Service;
 
 import com.example.corzello.Entity.Commentaire;
-import com.example.corzello.Service.CommentaireService;
+import com.example.corzello.Entity.Publication;
 import com.example.corzello.Repository.CommentaireRepository;
+import com.example.corzello.Repository.PublicationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Date;
 import java.util.List;
@@ -16,14 +16,19 @@ import java.util.Optional;
 public class CommentaireServiceImpl implements CommentaireService {
 
     private final CommentaireRepository commentaireRepository;
+    private final PublicationRepository publicationRepository;
 
     @Autowired
-    public CommentaireServiceImpl(CommentaireRepository commentaireRepository) {
+    public CommentaireServiceImpl(CommentaireRepository commentaireRepository, PublicationRepository publicationRepository) {
         this.commentaireRepository = commentaireRepository;
+        this.publicationRepository = publicationRepository;
     }
 
     @Override
-    public Commentaire createComment(Commentaire commentaire) {
+    public Commentaire createComment(Long idPublication, Commentaire commentaire) {
+        Publication publication = publicationRepository.findById(idPublication)
+                .orElseThrow(() -> new EntityNotFoundException("Publication not found with ID: " + idPublication));
+        commentaire.setPublication(publication);
         commentaire.setCreatedAt(new Date());
         return commentaireRepository.save(commentaire);
     }
