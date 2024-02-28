@@ -32,7 +32,7 @@ public class ModuleController implements Serializable {
 
 
 
-   // public ResponseEntity<ModuleEntity> createModule(@RequestBody ModuleEntity module) {
+   //  public ResponseEntity<ModuleEntity> createModule(@RequestBody ModuleEntity module) {
      //   ModuleEntity savedModule = moduleService.saveOrUpdateModule(module);
        // return new ResponseEntity<>(savedModule, HttpStatus.CREATED);
     //}
@@ -41,6 +41,7 @@ public class ModuleController implements Serializable {
 
 
     @PostMapping("/add/{idProg}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<ModuleEntity> addModule(@PathVariable Long idProg, @RequestBody ModuleEntity module) {
        ModuleEntity savedModule = moduleService.AjouterModule(idProg, module);
        return new ResponseEntity<>(savedModule, HttpStatus.CREATED);
@@ -54,7 +55,10 @@ public class ModuleController implements Serializable {
     }
 
     @GetMapping("/progModule/{progEducId}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<ModuleEntity> getModulesForProgEduc(@PathVariable Long progEducId) {
         return moduleService.getModulesForProgEduc(progEducId);
     }
+
+
 }

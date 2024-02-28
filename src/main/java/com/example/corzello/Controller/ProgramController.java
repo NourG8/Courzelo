@@ -31,7 +31,7 @@ public class ProgramController implements Serializable {
 
 
     @PostMapping("/add")
-
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Prog_educatif> createProgram(@RequestBody Prog_educatif Program) {
         Prog_educatif savedProgram = programService.saveOrUpdateProgram(Program);
         return new ResponseEntity<>(savedProgram, HttpStatus.CREATED);

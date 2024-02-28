@@ -40,7 +40,7 @@ public class ModuleEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Prof prof;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "prog_educatif_id")
+    @JoinColumn(name = "idProg")
     @JsonIgnore
     private Prog_educatif progEducatif;
     @OneToMany(mappedBy = "module",cascade = CascadeType.ALL)
