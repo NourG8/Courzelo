@@ -24,7 +24,10 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> getUsers(){
         return  ResponseEntity.ok().body(userService.getUsers());
     }
-
+    @GetMapping("/allRoles")
+    public ResponseEntity<List<Role>> getRoles(){
+        return  ResponseEntity.ok().body(userService.getAllRoles());
+    }
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request ){
     return ResponseEntity.ok(userService.register(request)) ;
@@ -41,14 +44,21 @@ public class UserController {
 }
     @PostMapping("/role/addtoUser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
-        userService.addRoletoUser(form.getUsername(), form.getPassword());
+        userService.addRoletoUser(form.getEmail(), form.getRolename());
         return  ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") long idUser){
+        return userService.deleteUser(idUser);
+    }
+
+
 
 
 }
 @Data
 class RoleToUserForm{
-    private String username ;
-    private String password ;
+    private String email ;
+    private String rolename ;
 }

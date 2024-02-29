@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -76,12 +76,12 @@ public class UserServiceImpl implements UserService {
     public Role addRoletoUser(String email, String rolename) {
         UserEntity user = userRepo.findByEmail(email);
         Role role = roleRepo.findByName(rolename);
-        try {user.setRole(role);}
-        catch (Exception e){
-            log.info(e.toString());
-        }
-        log.info("role added to user");
-        return role ;
+
+           user.setRole(role);
+           userRepo.save(user);
+           return role ;
+
+
     }
 
     @Override
@@ -92,5 +92,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> getUsers() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepo.findAll();
+    }
+
+    @Override
+    public String deleteUser(long idUser) {
+        if (!Objects.isNull(userRepo.findById(idUser))){
+             return "";
+        }else {
+            return "";
+        }
+
     }
 }
