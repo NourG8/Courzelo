@@ -24,41 +24,25 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> getUsers(){
         return  ResponseEntity.ok().body(userService.getUsers());
     }
-    @GetMapping("/allRoles")
-    public ResponseEntity<List<Role>> getRoles(){
-        return  ResponseEntity.ok().body(userService.getAllRoles());
-    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request ){
-    return ResponseEntity.ok(userService.register(request)) ;
+        return ResponseEntity.ok(userService.register(request)) ;
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request ){
         return ResponseEntity.ok(userService.authenticate(request)) ;
     }
-
-    @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/userapi/role/save").toUriString());
-        return  ResponseEntity.created(uri).body(userService.saveRole(role));
-}
     @PostMapping("/role/addtoUser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
-        userService.addRoletoUser(form.getEmail(), form.getRolename());
+        userService.addRoletoUser(form.getUsername(), form.getRole());
         return  ResponseEntity.ok().build();
     }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long idUser){
-        return userService.deleteUser(idUser);
-    }
-
-
 
 
 }
 @Data
 class RoleToUserForm{
-    private String email ;
-    private String rolename ;
+    private String username ;
+    private String  role ;
 }

@@ -1,16 +1,7 @@
 package com.example.corzello;
 
-import com.example.corzello.Entity.Role;
-import com.example.corzello.Entity.UserEntity;
-import com.example.corzello.Service.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashSet;
 
 @SpringBootApplication
 public class CorzelloApplication {

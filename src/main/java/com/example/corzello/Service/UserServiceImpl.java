@@ -5,7 +5,6 @@ import com.example.corzello.Controller.AuthenticationResponse;
 import com.example.corzello.Controller.RegisterRequest;
 import com.example.corzello.Entity.Role;
 import com.example.corzello.Entity.UserEntity;
-import com.example.corzello.Repository.RoleRepo;
 import com.example.corzello.Repository.UserRepo;
 import com.example.corzello.Security.JwtService;
 import jakarta.transaction.Transactional;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +29,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
     @Autowired
-    private RoleRepo roleRepo;
-    @Autowired
     private PasswordEncoder passwordEncoder ;
     @Autowired
     private JwtService jwtService ;
@@ -41,13 +37,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
         var user =UserEntity.builder()
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(addRoletoUser(request.getEmail(),"default"))
+                .roles(Role.User)
                 .build();
         userRepo.save(user) ;
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build() ;
+        return AuthenticationResponse.builder().user(user).role(user.getRoles()).token(jwtToken).build() ;
     }
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -59,29 +57,20 @@ public class UserServiceImpl implements UserService {
         );
         var user=userRepo.findByEmail(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build() ;
-    }
-    @Override
-    public Role saveRole(Role role) {
-        try {
-            roleRepo.save(role);
-        } catch (Exception e) {
-            e.toString();
-        }
-        log.info("role saved");
-        return role ;
+        return AuthenticationResponse.builder().user(user).role(user.getRoles()).token(jwtToken).build() ;
     }
 
+
     @Override
-    public Role addRoletoUser(String email, String rolename) {
+    public Role addRoletoUser(String email, String role) {
         UserEntity user = userRepo.findByEmail(email);
-        Role role = roleRepo.findByName(rolename);
-
-           user.setRole(role);
-           userRepo.save(user);
-           return role ;
-
-
+        Role role1 = Role.valueOf(role);
+        try {user.setRoles(role1);}
+        catch (Exception e){
+            log.info(e.toString());
+        }
+        log.info("role added to user");
+        return role1 ;
     }
 
     @Override
@@ -92,20 +81,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> getUsers() {
         return userRepo.findAll();
-    }
-
-    @Override
-    public List<Role> getAllRoles() {
-        return roleRepo.findAll();
-    }
-
-    @Override
-    public String deleteUser(long idUser) {
-        if (!Objects.isNull(userRepo.findById(idUser))){
-             return "";
-        }else {
-            return "";
-        }
-
     }
 }
