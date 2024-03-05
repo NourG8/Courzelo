@@ -36,12 +36,13 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager ;
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+       //TODo:RAJA3 ELROLE
         var user =UserEntity.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(Role.User)
+                .roles(Role.ROLE_User)
                 .build();
         userRepo.save(user) ;
         var jwtToken = jwtService.generateToken(user);

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,9 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/userapi")
 @CrossOrigin(origins = "http://localhost:4200")
+//@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class UserController {
     @Autowired
     private UserService userService ;
+
     @GetMapping("/allusers")
     public ResponseEntity<List<UserEntity>> getUsers(){
         return  ResponseEntity.ok().body(userService.getUsers());
@@ -35,14 +39,17 @@ public class UserController {
     }
     @PostMapping("/role/addtoUser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
-        userService.addRoletoUser(form.getUsername(), form.getRole());
+        userService.addRoletoUser(form.getEmail(), form.getRole());
         return  ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/accessDenied")
+    public String denied(){
+        return "accessDenied";
+    }
 }
 @Data
 class RoleToUserForm{
-    private String username ;
+    private String email ;
     private String  role ;
 }

@@ -1,10 +1,10 @@
 package com.example.corzello.Entity;
 
 public enum Role {
-    Admin,
-    Universite,
-    Prof,
-    Recruteur,
-    Etudiant,
-    User
+    ROLE_Admin,
+    ROLE_Universite,
+    ROLE_Prof,
+    ROLE_Recruteur,
+    ROLE_Etudiant,
+    ROLE_User
 }

@@ -1,11 +1,11 @@
 package com.example.corzello.Security;
 
+import com.example.corzello.Entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,8 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -31,13 +29,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-                        req -> req.requestMatchers("/userapi/register","/userapi/authenticate","/userapi/**","/Module/**","/Program/**","/publications/**","/comments/**","api/vote/**")
-                                .permitAll()
+                        req -> req.requestMatchers("/userapi/register","/userapi/authenticate").permitAll()
+                                .requestMatchers("/Module/**").hasAuthority("Recruteur")
+                                .requestMatchers("/Program/**").hasAnyAuthority("Prof","Universite")
+                                .requestMatchers("api/vote/**","/comments/**").hasAuthority("Etudiant")
+                                .requestMatchers("/userapi/role/addtoUser","/userapi/allusers").hasAnyAuthority("ROLE_Admin")
                                 .anyRequest()
-                                .fullyAuthenticated()
+                            .authenticated()
                 ).sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling((exception)-> exception.accessDeniedPage("/userapi/accessDenied"));
         return http.build();
     }
 }

@@ -38,7 +38,10 @@ public class UserEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority(roles.name()));
+        //return List.of(new SimpleGrantedAuthority(roles.name()));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+         authorities.add(new SimpleGrantedAuthority(roles.toString()));
+         return authorities;
     }
     @Override
     public String getPassword(){
