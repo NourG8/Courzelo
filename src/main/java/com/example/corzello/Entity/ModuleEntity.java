@@ -20,8 +20,7 @@ import java.util.Set;
 
 public class ModuleEntity implements Serializable {
     @Id
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idModule;
 
@@ -39,7 +38,7 @@ public class ModuleEntity implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Prof prof;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idProg")
     @JsonIgnore
     private Prog_educatif progEducatif;

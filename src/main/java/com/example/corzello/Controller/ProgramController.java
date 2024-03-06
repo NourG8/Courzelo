@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -54,6 +55,11 @@ public class ProgramController implements Serializable {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Prog_educatif> getProgramById(@PathVariable Long id) {
+        Optional<Prog_educatif> programOptional = programService.getProgramById(id);
+        return programOptional.map(program -> new ResponseEntity<>(program, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
 
