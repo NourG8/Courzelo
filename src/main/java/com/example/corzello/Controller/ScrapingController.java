@@ -1,9 +1,13 @@
 package com.example.corzello.Controller;
+import com.example.corzello.Entity.proposed_job_offer;
 import com.example.corzello.Service.PythonScriptRunner;
+import com.example.corzello.Service.ScrapingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/scrape")
@@ -11,8 +15,11 @@ import org.springframework.web.client.RestTemplate;
 public class ScrapingController {
     private final RestTemplate restTemplate;
 
-    public ScrapingController(RestTemplate restTemplate) {
+    private final ScrapingService scrapingService;
+
+    public ScrapingController(RestTemplate restTemplate, ScrapingService scrapingService) {
         this.restTemplate = restTemplate;
+        this.scrapingService = scrapingService;
     }
 
     @PostMapping("/api/scrape")
@@ -25,5 +32,9 @@ public class ScrapingController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Error response
         }
+    }
+    @GetMapping("GetAll")
+    public List<proposed_job_offer> getAllProposedJobOffer() {
+        return scrapingService.getAllProposedJobOffer();
     }
 }
