@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         userRepo.save(user) ;
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().user(user).role(user.getRoles()).token(jwtToken).build() ;
+        return AuthenticationResponse.builder().user(user).token(jwtToken).build() ;
     }
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         );
         var user=userRepo.findByEmail(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().user(user).role(user.getRoles()).token(jwtToken).build() ;
+        return AuthenticationResponse.builder().user(user).token(jwtToken).build() ;
     }
 
 

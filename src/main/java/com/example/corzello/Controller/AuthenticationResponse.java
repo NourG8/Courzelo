@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
     private UserEntity user ;
-    private  Role role ;
     private String token ;
 
 }
