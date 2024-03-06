@@ -2,6 +2,7 @@ package com.example.corzello.Service;
 
 import com.example.corzello.Entity.Publication;
 import com.example.corzello.Entity.Publication;
+import com.example.corzello.Repository.CommentaireRepository;
 import com.example.corzello.Repository.PublicationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,10 @@ public class PublicationServiceImpl  implements  PublicationService{
 
 
     private PublicationRepository publicationRepository;
+
+    @Autowired
+    private CommentaireRepository commentaireRepository;
+
 
     public PublicationServiceImpl(PublicationRepository publicationRepository){
         this.publicationRepository=publicationRepository;
@@ -49,12 +54,15 @@ public class PublicationServiceImpl  implements  PublicationService{
 
     @Override
     public Publication getPublicationById(long idPublication) {
-        return  publicationRepository.findById(idPublication).orElse(null);
-    }
+        Publication publication = publicationRepository.findById(idPublication).orElse(null);
 
+        return publication;
+    }
     @Override
     public List<Publication> getAllPublication() {
         return (List<Publication>) publicationRepository.findAll()  ;
+
+
     }
 
     @Override
