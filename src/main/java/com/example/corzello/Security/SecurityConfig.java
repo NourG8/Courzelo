@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-                        req -> req.requestMatchers("/userapi/register","/userapi/authenticate").permitAll()
+                        req -> req.requestMatchers("/userapi/register","/userapi/authenticate","/publications/**").permitAll()
                                 .requestMatchers("/Module/**").hasAuthority("Recruteur")
                                 .requestMatchers("/Program/**").hasAnyAuthority("Prof","Universite")
                                 .requestMatchers("api/vote/**","/comments/**").hasAuthority("Etudiant")
