@@ -24,18 +24,24 @@ public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-
+    private String firstname ;
+    private String lastname ;
     @ManyToMany(mappedBy = "users",cascade = CascadeType.ALL)
     private Set<Forum> forum;
     @Column(nullable=false, unique=true)
     String email;
     @Column(nullable=false)
     String password ;
+    @Enumerated(EnumType.STRING)
+    private Role roles ;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority(role.getName()));
+        //return List.of(new SimpleGrantedAuthority(roles.name()));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+         authorities.add(new SimpleGrantedAuthority(roles.toString()));
+         return authorities;
     }
     @Override
     public String getPassword(){
@@ -67,6 +73,15 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private Role role;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private Recruteur recruteur;
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private Universite universite;
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private Prof prof;
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private Etudiant etudiant;
+
 }
+

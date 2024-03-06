@@ -1,21 +1,10 @@
 package com.example.corzello.Entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
-@Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Table(name="roles")
-public class Role
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long Id;
-
-    private String name;
+public enum Role {
+    ROLE_Admin,
+    ROLE_Universite,
+    ROLE_Prof,
+    ROLE_Recruteur,
+    ROLE_Etudiant,
+    ROLE_User
 }

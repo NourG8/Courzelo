@@ -1,5 +1,7 @@
 package com.example.corzello.Controller;
 
+import com.example.corzello.Entity.Role;
+import com.example.corzello.Entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
-
+    private UserEntity user ;
+    private  Role role ;
     private String token ;
 
 }

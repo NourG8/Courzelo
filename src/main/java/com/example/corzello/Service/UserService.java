@@ -12,8 +12,8 @@ public interface UserService {
 
     AuthenticationResponse register(RegisterRequest request) ;
     AuthenticationResponse authenticate(AuthenticationRequest request) ;
-    Role saveRole(Role role) ;
-    Role addRoletoUser(String username ,String rolename);
+
+    public Role addRoletoUser(String email, String role);
     UserEntity getUserById (long idUser) ;
     List<UserEntity> getUsers() ;
 }
