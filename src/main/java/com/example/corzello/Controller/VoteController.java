@@ -30,4 +30,24 @@ public class VoteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Publication not found.\"}");
         }
     }
-}
+    @GetMapping("/netscore/{publicationId}")
+    public ResponseEntity<?> getNetScoreForPublication(@PathVariable Long publicationId) {
+        int netScore = voteService.calculateNetScore(publicationId);
+        if (netScore != Integer.MIN_VALUE) {
+            return ResponseEntity.ok().body(netScore);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Publication not found.\"}");
+        }
+
+    }
+    @DeleteMapping("/ivote/{publicationId}")
+    public ResponseEntity<?> undoVote(@PathVariable Long publicationId, @RequestParam boolean isUpvote) {
+        if (voteService.undoVote(publicationId, isUpvote)) {
+            return ResponseEntity.ok().body("{\"message\": \"Vote undone successfully.\"}");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\": \"Publication not found or vote not undone.\"}");
+        }
+    }
+    }
+
+
