@@ -22,10 +22,12 @@ public class ScrapingController {
         this.scrapingService = scrapingService;
     }
 
-    @PostMapping("/api/scrape")
-    public ResponseEntity<Object> callPythonAI(@RequestBody Object request) {
+    @PostMapping("/api/scrape/{searchTerm}")
+    public ResponseEntity<Object> callPythonAI(@PathVariable String searchTerm) {
         PythonScriptRunner psr = new PythonScriptRunner();
-        boolean success = psr.runPythonScript();
+        // Pass the searchTerm to the Python script or perform any necessary operations
+
+        boolean success = psr.runPythonScript(searchTerm); // Example of passing searchTerm to the Python script
 
         if (success) {
             return ResponseEntity.ok().build(); // Success response

@@ -1,16 +1,14 @@
 package com.example.corzello.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class PythonScriptRunner {
 
-    public boolean runPythonScript() {
+    public boolean runPythonScript(String variable) {
         try {
-            String scriptPath ="D:\\PI PROJECT\\Corzello\\src\\main\\java\\com\\example\\corzello\\flask_integration\\flask_scraping.py";
-            // Build the command to run the Python script
-            ProcessBuilder pb = new ProcessBuilder("python", scriptPath);
+            String scriptPath = "D:\\PI PROJECT\\Corzello\\src\\main\\java\\com\\example\\corzello\\flask_integration\\flask_scraping.py";
+            // Build the command to run the Python script with the variable as argument
+            ProcessBuilder pb = new ProcessBuilder("python", scriptPath,  variable);
 
             // Start the process
             Process process = pb.start();

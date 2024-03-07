@@ -6,7 +6,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+import sys
+
 def main():
+    searchTerm = sys.argv[1]
     driver = webdriver.Chrome()
 
     #driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -18,7 +21,7 @@ def main():
 
     recherche = driver.find_element(By.XPATH, "//input[@id='search-query-field']")
     recherche.clear()
-    recherche.send_keys("java")
+    recherche.send_keys(searchTerm)
     print("done 1")
 
 
