@@ -3,9 +3,8 @@ package com.example.corzello.Service;
 import com.example.corzello.Controller.AuthenticationRequest;
 import com.example.corzello.Controller.AuthenticationResponse;
 import com.example.corzello.Controller.RegisterRequest;
-import com.example.corzello.Entity.Role;
-import com.example.corzello.Entity.UserEntity;
-import com.example.corzello.Repository.UserRepo;
+import com.example.corzello.Entity.*;
+import com.example.corzello.Repository.*;
 import com.example.corzello.Security.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,14 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class UserServiceImpl implements UserService {
-
+    @Autowired
+    private UniversiteRepository universiteRepository ;
+    @Autowired
+    private RecruteurRepository recruteurRepository;
+    @Autowired
+    private ProfRepository profRepository ;
+    @Autowired
+    private EtudiantRepository etudiantRepository ;
     @Autowired
     private UserRepo userRepo;
     @Autowired
@@ -56,21 +63,74 @@ public class UserServiceImpl implements UserService {
                         request.getPassword()
                 )
         );
-        var user=userRepo.findByEmail(request.getEmail());
+
+
+        var user = userRepo.findByEmail(request.getEmail());
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().user(user).token(jwtToken).build() ;
+
+
+        Object associatedEntity = null;
+        switch (user.getRoles()) {
+            case ROLE_Admin:
+            case ROLE_User:
+
+                break;
+            case ROLE_Universite:
+                associatedEntity = universiteRepository.findById(user.getId());
+                break;
+            case ROLE_Prof:
+                associatedEntity = profRepository.findById(user.getId());
+                break;
+            case ROLE_Recruteur:
+                associatedEntity = recruteurRepository.findById(user.getId());
+                break;
+            case ROLE_Etudiant:
+                associatedEntity = etudiantRepository.findById(user.getId());
+                break;
+        }
+
+
+        return AuthenticationResponse.builder()
+                .user(user)
+                .associatedEntity((AssociatedEntity) associatedEntity)
+                .token(jwtToken)
+                .build();
     }
+
 
 
     @Override
     public Role addRoletoUser(String email, String role) {
         UserEntity user = userRepo.findByEmail(email);
-        Role role1 = Role.valueOf(role);
-        try {user.setRoles(role1);}
-        catch (Exception e){
-            log.info(e.toString());
+        Role role1 = Role.valueOf("ROLE_"+role);
+        user.setRoles(role1);
+        switch (role1) {
+            case ROLE_Universite:
+                Universite universite = new Universite();
+                universite.setId_user(user.getId());
+                universiteRepository.save(universite);
+                break;
+            case ROLE_Prof:
+                Prof prof = new Prof();
+                prof.setId_user(user.getId());
+                profRepository.save(prof);
+                break;
+            case ROLE_Recruteur:
+                Recruteur recruteur = new Recruteur();
+                recruteur.setId_user(user.getId());
+                recruteurRepository.save(recruteur);
+                break;
+            case ROLE_Etudiant:
+                Etudiant etudiant = new Etudiant();
+                etudiant.setId_user(user.getId());
+                etudiantRepository.save(etudiant);
+                break;
         }
-        log.info("role added to user");
         return role1 ;
     }
 

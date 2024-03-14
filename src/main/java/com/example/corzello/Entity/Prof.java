@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Prof {
+public class Prof implements AssociatedEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_user;

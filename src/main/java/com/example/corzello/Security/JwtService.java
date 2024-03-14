@@ -1,5 +1,6 @@
 package com.example.corzello.Security;
 
+import com.example.corzello.Entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,6 +35,7 @@ public class JwtService {
             Map<String,Object>extraClaims,
             UserDetails userDetails
     ) {
+        extraClaims.put("role", userDetails.getAuthorities().toString());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
